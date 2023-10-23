@@ -1,28 +1,25 @@
 import '../App.css';
-import React,{useEffect, useState} from 'react'
+
+import HotelList from './HotelList';
+import HotelCard from './HotelCard';
+import HotelDetails from './HotelCard';
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
 
 
 
 function App() {
 
-  const [hotels, setHotels] = useState([])
 
-  useEffect(()=> {
-    fetch("http://localhost:9292/hotels")
-    .then((r) => r.json())
-    .then((data) => setHotels(data));
-  }, []
-  );
-
-  
-  const displayHotelList = hotels.map((hotel)=>{
-      return <ul>{hotel.name}, {hotel.location}</ul>
-    })
-    
 
 return(
-  <div>
-      {displayHotelList}
+  <div className='App'>
+    <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<HotelList/>}/>
+      <Route path='/hotel/:id' element={<HotelDetails/>}/>
+      
+    </Routes>
+    </BrowserRouter>
   </div>
 )
 }
