@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 
-function HotelDetails(){
-const [hotelDetail, setHotelDetail] = useState([])
+function HotelDetails({hotels, setHotels}){
 
+const {id} = useParams()
 
-    useEffect(()=>{
-        fetch(`http://localhost:9292/hotels/${params.id}`)
-        .then(r=>r.json())
-        .then(data =>setHotelDetail(data))
-    }, [params.id])
-const {name, location, price} = hotelDetail
+console.log(id)
 
+const hotel = hotels.find(h=>h.id===parseInt(id))
+console.log(hotel)
+if(!hotel){
+    return <h1>Loading...</h1>
+}
 return (
 
     <div>
-        {name}, {location}, {price}
-
+      {hotel.name}
     </div>
 )
 
