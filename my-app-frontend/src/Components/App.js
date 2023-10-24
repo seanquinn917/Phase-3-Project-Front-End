@@ -18,7 +18,7 @@ function App() {
     .then((data) => setHotels(data));
   }, []
   );
-console.log(hotels)
+// console.log(hotels)
 
 return(
   <div className='App'>
