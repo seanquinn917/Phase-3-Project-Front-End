@@ -13,12 +13,12 @@ function App() {
 
 
   useEffect(()=> {
-    fetch("http://localhost:9292/hotels")
+    fetch("http://localhost:9292/restaurants")
     .then((r) => r.json())
     .then((data) => setRestaurants(data));
   }, []
   );
-// console.log(restaurants)
+console.log(restaurants)
 
 return(
   <div className='App'>

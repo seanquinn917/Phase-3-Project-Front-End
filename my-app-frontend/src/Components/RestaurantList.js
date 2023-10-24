@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
 import RestaurantCard from "./RestaurantCard";
 
-function RestaurantList({hotels, setHotels}){
+function RestaurantList({restaurants, setRestaurants}){
 
     
 
     
-    const displayRestaurantList = restaurants.map((hotel)=>{
+    const displayRestaurantList = restaurants.map((restaurant)=>{
         return <RestaurantCard id={restaurant.id} key={restaurant.id} name={restaurant.name} location={restaurant.location} price={restaurant.price}/>
       })
       
