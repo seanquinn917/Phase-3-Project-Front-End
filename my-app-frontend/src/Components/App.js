@@ -10,7 +10,11 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [restaurants, setRestaurants] = useState([])
+  const [reviews, setReviews]=useState([])
 
+  function handleNewReview(newReview){
+      setReviews((prevReviews)=> [...prevReviews, newReview])
+  }
 
   useEffect(()=> {
     fetch("http://localhost:9292/restaurants")
@@ -25,7 +29,7 @@ return(
     <BrowserRouter>
     <Routes>
       <Route path='/restaurants' element={<RestaurantList restaurants={restaurants} setRestaurants={setRestaurants}/>}/>
-      <Route path='/restaurants/:id' element={<RestaurantDetails restaurants={restaurants} setRestaurants={setRestaurants} />}/>
+      <Route path='/restaurants/:id' element={<RestaurantDetails restaurants={restaurants} setRestaurants={setRestaurants} handleNewReview={handleNewReview}/>}/>
     </Routes>
     </BrowserRouter>
   </div>
