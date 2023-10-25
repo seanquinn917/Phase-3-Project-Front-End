@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 
 
-function RestaurantCard({id, name, location, price}){
+function RestaurantCard({id, name, location, price, deleteRestaurant}){
 
 
 
@@ -11,8 +11,10 @@ function RestaurantCard({id, name, location, price}){
 
 return (
     <div>
+        
         <h1>{name}, {location} </h1>
-        <Link to={`/restaurants/${id}`}>details</Link>
+        <button onClick={deleteRestaurant}>Delete Restaurant</button>
+        <Link to={`/restaurants/${id}`}>More Details</Link>
     </div>
 )
 

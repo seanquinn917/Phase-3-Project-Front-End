@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from "react";
 import RestaurantCard from "./RestaurantCard";
+import { useParams } from "react-router-dom";
 
 function RestaurantList({restaurants, setRestaurants}){
+const {id} = useParams()
+
 const [newRestaurantForm, setNewRestaurantForm]=useState({
     name: "",
     location: "",
@@ -18,6 +21,22 @@ setNewRestaurantForm({
 console.log(e.target.value)
 }
 
+
+
+    function deleteRestaurant(e){
+        e.preventDefault()
+        fetch(`http://localhost:9292/restaurants/${id}`,{
+            method:"DELETE"
+        })
+        .then((r)=>r.json())
+        .then(()=> {
+        const updatedRestaurants = [...restaurants]
+        const targetRestaurant = updatedRestaurants.filter((r)=> r.id!==id)
+        setRestaurants(targetRestaurant)
+        })
+    }
+
+    
 
     function addNewRestaurant(e){
         e.preventDefault();
@@ -38,7 +57,7 @@ console.log(e.target.value)
 
     
     const displayRestaurantList = restaurants.map((restaurant)=>{
-        return <RestaurantCard id={restaurant.id} key={restaurant.id} name={restaurant.name} location={restaurant.location} price={restaurant.price}/>
+        return <RestaurantCard deleteRestaurant={deleteRestaurant} id={restaurant.id} key={restaurant.id} name={restaurant.name} location={restaurant.location} price={restaurant.price} />
       })
       
       
