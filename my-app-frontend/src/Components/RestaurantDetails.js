@@ -2,13 +2,35 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 
-function RestaurantDetails({restaurants, setRestaurants,handleNewReview}){
+function RestaurantDetails({restaurants, setRestaurants, handleNewReview}){
   const {id} = useParams()
   
+  const[showForm, setShowForm]=useState(false)
+  function handleForm(){
+    setShowForm((showForm)=>!showForm)
+  }
+
   const [formData, setFormData]=useState({
     comment: "",
     restaurant_id : id
   })
+
+  const[updateRestaurant, setUpdateRestaurant]=useState({
+    name: "",
+    location: "",
+    price: ""
+})
+
+function handleUpdateFormChange(e){
+    e.preventDefault()
+    setUpdateRestaurant({
+        ...updateRestaurant,
+        [e.target.name]:e.target.value
+    }) 
+    console.log(e.target.value)
+    }
+
+
 
   function deleteReview(e){
     e.preventDefault();
@@ -32,12 +54,10 @@ e.preventDefault();
     ...formData,
     [e.target.name]:e.target.value
   })
-  // console.log(e.target.value)
 }
 
-function handleSubmit(e){
+function handleAddNewRestaurant(e){
 e.preventDefault()
-
 fetch("http://localhost:9292/reviews",{
   method:"POST",
   headers: {
@@ -58,6 +78,11 @@ fetch("http://localhost:9292/reviews",{
 }
 
 
+function updateRestaurantInfo(){
+  fetch()
+}
+
+
 const restaurant = restaurants.find(r=>r.id===parseInt(id))
 
 
@@ -69,6 +94,17 @@ return (
 
     <div>
       {restaurant.name},  {restaurant.location}, {restaurant.price}
+
+      <form onSubmit={updateRestaurantInfo}>
+            <label>Did we get it wrong? Update restaurnat info here!  </label>
+            <label>Name</label>
+            <input type="text" name="name" value={updateRestaurant.name} onChange={handleUpdateFormChange}/>
+            <label> Location</label>
+            <input type="text" name="location" value={updateRestaurant.location} onChange={handleUpdateFormChange}/>
+            <label> Price Range</label>
+            <input type="text" name="price" value={updateRestaurant.price} onChange={handleUpdateFormChange}/>
+            <input type="submit" value="submit"/>
+        </form>
        <ul>Reviews:
         {/* <li>{restaurant.reviews[0].comment}</li>
         <li>{restaurant.reviews[1].comment}</li>
@@ -76,13 +112,23 @@ return (
         <li>{restaurant.reviews[3].comment}</li>
         <li>{restaurant.reviews[4].comment}</li> */}
      {restaurant.reviews.map((review) => (
-    <li key={review.id}>{review.comment} <button onClick={deleteReview}>Delete Review</button></li>
+    <li key={review.id}>{review.comment}  <button onClick={deleteReview}>Delete Review</button></li>
   ))}
       </ul>
       
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleAddNewRestaurant}>
         <input type="text" name="comment" value={formData.comment} onChange={handleChange}></input>Add your review!
       </form>
+      <form onSubmit={updateRestaurantInfo}>
+            <label>Did we get it wrong? Update restaurnat info here!  </label>
+            <label>Name</label>
+            <input type="text" name="name" value={updateRestaurant.name} onChange={handleUpdateFormChange}/>
+            <label> Location</label>
+            <input type="text" name="location" value={updateRestaurant.location} onChange={handleUpdateFormChange}/>
+            <label> Price Range</label>
+            <input type="text" name="price" value={updateRestaurant.price} onChange={handleUpdateFormChange}/>
+            <input type="submit" value="submit"/>
+        </form>
     </div>
 )
 
