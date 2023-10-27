@@ -24,7 +24,7 @@ function handleUpdateFormChange(e){
         ...updateRestaurant,
         [e.target.name]:e.target.value
     }) 
-    console.log(e.target.value)
+   
     }
 
 
@@ -34,13 +34,13 @@ function handleUpdateFormChange(e){
       fetch(`http://localhost:9292/reviews/${id}`,{
         method: "DELETE",
       })
-      // .then((r)=>r.json())
-      // .then(()=>{
-      //   const updatedRestaurants = [...restaurants]
-      //   const targetRestaurant = updatedRestaurants.find((r)=>r.id===parseInt(id))
-      //   targetRestaurant.reviews.filter((review)=> review.id!==parseInt(id) )
-      //   setRestaurants(updatedRestaurants)
-      //   })
+      .then((r)=>r.json())
+      .then(()=>{
+        const updatedRestaurants = [...restaurants]
+        const targetRestaurant = updatedRestaurants.find((r)=>r.id===parseInt(id))
+        targetRestaurant.reviews = targetRestaurant.reviews.filter((review)=> review.id !== parseInt(id))
+        setRestaurants(updatedRestaurants)
+        });
       }
   
 
@@ -76,6 +76,7 @@ fetch("http://localhost:9292/reviews",{
 
 
 function updateRestaurantInfo(e){
+  // console.log(id)
   e.preventDefault()
   fetch(`http://localhost:9292/restaurants/${id}`,{
     method: "PATCH",
@@ -89,11 +90,21 @@ function updateRestaurantInfo(e){
     }),
   })
   .then((r)=>r.json())
-  .then ((updatedInfo)=>{
-
-  })
+  .then((newinfo)=> {
+    // console.log(newinfo.name)
+    const updatedRestaurants = [...restaurants]
+    
+    const targetRestaurant = updatedRestaurants.find((r)=>r.id === parseInt(id))
+    targetRestaurant.name= newinfo.name
+    targetRestaurant.location = newinfo.location
+    targetRestaurant.price = newinfo.price
+    setRestaurants(updatedRestaurants)
+    }
   
+  )
+    
 }
+
 
 
 const restaurant = restaurants.find(r=>r.id===parseInt(id))
@@ -106,10 +117,10 @@ if(!restaurant){
 return (
 
     <div>
-      {restaurant.name},  {restaurant.location}, {restaurant.price}
+      {restaurant.name},  {restaurant.location}, {restaurant.price} 
 
       <form onSubmit={updateRestaurantInfo}>
-            <label>Did we get it wrong? Update restaurnat info here!  </label>
+            <label>Did we get it wrong? Update restaurant info here!  </label>
             <label>Name</label>
             <input type="text" name="name" value={updateRestaurant.name} onChange={handleUpdateFormChange}/>
             <label> Location</label>
@@ -119,11 +130,6 @@ return (
             <input type="submit" value="submit"/>
         </form>
        <ul>Reviews:
-        {/* <li>{restaurant.reviews[0].comment}</li>
-        <li>{restaurant.reviews[1].comment}</li>
-        <li>{restaurant.reviews[2].comment}</li>
-        <li>{restaurant.reviews[3].comment}</li>
-        <li>{restaurant.reviews[4].comment}</li> */}
      {restaurant.reviews.map((review) => (
     <li key={review.id}>{review.comment}  <button onClick={deleteReview}>Delete Review</button></li>
   ))}

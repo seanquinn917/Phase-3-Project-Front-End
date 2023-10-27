@@ -12,7 +12,7 @@ const [newRestaurantForm, setNewRestaurantForm]=useState({
 })
 
 
-function change(e){
+function newRestaurantChange(e){
 e.preventDefault()
 setNewRestaurantForm({
     ...newRestaurantForm,
@@ -22,19 +22,6 @@ console.log(e.target.value)
 }
 
 
-
-    function deleteRestaurant(e){
-        e.preventDefault()
-        fetch(`http://localhost:9292/restaurants/${id}`,{
-            method:"DELETE"
-        })
-        .then((r)=>r.json())
-        .then(()=> {
-        const updatedRestaurants = [...restaurants]
-        const targetRestaurant = updatedRestaurants.filter((r)=> r.id!==id)
-        setRestaurants(targetRestaurant)
-        })
-    }
 
     
 
@@ -57,7 +44,7 @@ console.log(e.target.value)
 
     
     const displayRestaurantList = restaurants.map((restaurant)=>{
-        return <RestaurantCard deleteRestaurant={deleteRestaurant} id={restaurant.id} key={restaurant.id} name={restaurant.name} location={restaurant.location} price={restaurant.price} />
+        return <RestaurantCard restaurants={restaurants} setRestaurants={setRestaurants} id={restaurant.id} key={restaurant.id} name={restaurant.name} location={restaurant.location} price={restaurant.price}  />
       })
       
       
@@ -67,11 +54,11 @@ return (
     <div> 
         <form onSubmit={addNewRestaurant}>Add a new Restaurant here:  
             <label>  Name</label>
-            <input type="text" name="name" value={newRestaurantForm.name} onChange={change}/>
+            <input type="text" name="name" value={newRestaurantForm.name} onChange={newRestaurantChange}/>
             <label> Location</label>
-            <input type="text" name="location" value={newRestaurantForm.location} onChange={change}/>
+            <input type="text" name="location" value={newRestaurantForm.location} onChange={newRestaurantChange}/>
             <label> Price Range</label>
-            <input type="text" name="price" value={newRestaurantForm.price} onChange={change}/>
+            <input type="text" name="price" value={newRestaurantForm.price} onChange={newRestaurantChange}/>
             <input type="submit" value="submit"/>
         </form>
         {displayRestaurantList}

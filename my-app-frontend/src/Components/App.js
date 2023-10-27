@@ -1,16 +1,16 @@
 import '../App.css';
 
 import RestaurantList from './RestaurantList';
-import RestaurantCard from './RestaurantCard';
 import RestaurantDetails from './RestaurantDetails';
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 
 
 function App() {
   const [restaurants, setRestaurants] = useState([])
- 
+  
 
   
 
@@ -20,7 +20,10 @@ function App() {
     .then((data) => setRestaurants(data));
   }, []
   );
-console.log(restaurants)
+// console.log(restaurants)
+
+
+
 
 return(
   <div className='App'>

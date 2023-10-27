@@ -1,13 +1,28 @@
 import React from "react";
 import {Link} from 'react-router-dom'
+import { useParams } from "react-router-dom";
 
 
-
-function RestaurantCard({id, name, location, price, deleteRestaurant}){
-
+function RestaurantCard({id, name, location, setRestaurants}){
+    
 
 
     
+function deleteRestaurant(e){
+    e.preventDefault();
+    // console.log("did i get clicked?", id)
+ 
+    fetch(`http://localhost:9292/restaurants/${id}`,{
+        method: "DELETE",
+    })
+    .then((r) =>  r.json())
+     .then(() => {
+        setRestaurants(restaurants => {
+            return restaurants.filter((restaurant) => restaurant.id !== id);
+        })
+    })
+  }
+  
 
 return (
     <div>
