@@ -20,7 +20,7 @@ function App() {
     .then((data) => setRestaurants(data));
   }, []
   );
-// console.log(restaurants)
+
 
 
 
