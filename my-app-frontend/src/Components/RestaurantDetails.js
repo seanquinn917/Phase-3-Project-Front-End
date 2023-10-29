@@ -42,8 +42,6 @@ function handleUpdateFormChange(e){
               return updatedRestaurant
           } else return restaurant
         })  
-        // const targetRestaurant = updatedRestaurants.find((r)=>r.id===parseInt(id))
-        // targetRestaurant.reviews = targetRestaurant.reviews.filter((review)=> review.id !== deletedReview.id)
         setRestaurants(updatedRestaurants)
         });
       }
