@@ -118,7 +118,7 @@ const restaurant = restaurants.find(r=>r.id===parseInt(id))
 if(!restaurant){
     return <h1>Loading...</h1>
 }
-// console.log(restaurant.reviews[0].comment)
+
 return (
 
     <div>
