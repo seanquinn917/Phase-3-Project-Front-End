@@ -29,16 +29,21 @@ function handleUpdateFormChange(e){
 
 
 
-  function deleteReview(e){
-    e.preventDefault();
-      fetch(`http://localhost:9292/reviews/${id}`,{
+  function deleteReview(reviewId){
+    
+      fetch(`http://localhost:9292/reviews/${reviewId}`,{
         method: "DELETE",
       })
       .then((r)=>r.json())
-      .then(()=>{
-        const updatedRestaurants = [...restaurants]
-        const targetRestaurant = updatedRestaurants.find((r)=>r.id===parseInt(id))
-        targetRestaurant.reviews = targetRestaurant.reviews.filter((review)=> review.id !== parseInt(id))
+      .then((deletedReview)=>{
+        const updatedRestaurants = restaurants.map((restaurant)=> {
+          if(restaurant.id === deletedReview.restaurant_id){
+              const updatedRestaurant = {...restaurant, reviews:restaurant.reviews.filter((review)=> review.id !== deletedReview.id)}
+              return updatedRestaurant
+          } else return restaurant
+        })  
+        // const targetRestaurant = updatedRestaurants.find((r)=>r.id===parseInt(id))
+        // targetRestaurant.reviews = targetRestaurant.reviews.filter((review)=> review.id !== deletedReview.id)
         setRestaurants(updatedRestaurants)
         });
       }
@@ -131,7 +136,7 @@ return (
         </form>
        <ul>Reviews:
      {restaurant.reviews.map((review) => (
-    <li key={review.id}>{review.comment}  <button onClick={deleteReview}>Delete Review</button></li>
+    <li key={review.id}>{review.comment}  <button onClick={()=>deleteReview(review.id)}>Delete Review</button></li>
   ))}
       </ul>
       
